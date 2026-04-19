@@ -6,6 +6,8 @@ linters:
     - wrapcheck
     - unused
   exclusions:
+    paths:
+      - '.*_test\.go$'
     presets:
       - common-false-positives
 

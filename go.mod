@@ -1,5 +1,12 @@
 module github.com/moriT958/libpukiwiki
 
-go 1.23.5
+go 1.25.0
 
 require github.com/yuin/goldmark v1.7.16
+
+require github.com/PuerkitoBio/goquery v1.12.0
+
+require (
+	github.com/andybalholm/cascadia v1.3.3 // indirect
+	golang.org/x/net v0.52.0 // indirect
+)

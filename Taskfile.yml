@@ -9,6 +9,7 @@ tasks:
   build:
     desc: Build md2pw
     cmds:
+      - go build ./...
       - go build -o md2pw ./cmd/md2pw
 
   test:
