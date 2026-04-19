@@ -16,7 +16,7 @@ before:
     - go generate ./...
 
 builds:
-  - main: ./cmd/cli
+  - main: ./cmd/md2pw
     binary: md2pw
     env:
       - CGO_ENABLED=0

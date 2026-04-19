@@ -1,6 +1,8 @@
 package converter
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -213,5 +215,26 @@ func TestConvert(t *testing.T) {
 				t.Errorf("Expected %q, got %q", tt.expected, result)
 			}
 		})
+	}
+}
+
+func TestConvert_Integration(t *testing.T) {
+	input, err := os.ReadFile(filepath.Join("testdata", "sample.md"))
+	if err != nil {
+		t.Fatalf("ReadFile(sample.md) returned error: %v", err)
+	}
+
+	expected, err := os.ReadFile(filepath.Join("testdata", "sample.golden.txt"))
+	if err != nil {
+		t.Fatalf("ReadFile(sample.golden.txt) returned error: %v", err)
+	}
+
+	result, err := Convert(input)
+	if err != nil {
+		t.Fatalf("Convert returned error: %v", err)
+	}
+
+	if result != string(expected) {
+		t.Errorf("Expected %q, got %q", string(expected), result)
 	}
 }

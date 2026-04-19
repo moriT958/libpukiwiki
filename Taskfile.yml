@@ -2,14 +2,14 @@ version: "3"
 
 tasks:
   run:
-    desc: Run the CLI
+    desc: Run md2pw
     cmds:
-      - go run cmd/cli/main.go {{.CLI_ARGS}}
+      - go run ./cmd/md2pw {{.CLI_ARGS}}
 
   build:
-    desc: Build the CLI binary
+    desc: Build md2pw
     cmds:
-      - go build -o md2pw ./cmd/cli
+      - go build -o md2pw ./cmd/md2pw
 
   test:
     desc: Run tests
@@ -22,13 +22,13 @@ tasks:
       - golangci-lint run ./...
 
   release:
-    desc: Release the CLI binary in local
+    desc: Release md2pw binary in local
     cmds:
       - goreleaser check
       - goreleaser release --snapshot --clean
 
   deploy:
-    desc: Deploy the CLI on GitHub
+    desc: Deploy md2pw on GitHub
     vars:
       TAG:
         sh: echo "{{.CLI_ARGS}}" | sed -n 's/.*--tag \([^ ]*\).*/\1/p'
@@ -40,8 +40,3 @@ tasks:
         fi
       - git tag {{.TAG}}
       - git push origin {{.TAG}}
-
-  e2e:
-    desc: Run E2E tests
-    cmds:
-      - cd e2e && .venv/bin/python -m pytest -v
