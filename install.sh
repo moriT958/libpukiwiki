@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-REPO="moriT958/md2pw"
+REPO="moriT958/libpukiwiki"
 BINARY="md2pw"
 INSTALL_DIR="${HOME}/.local/bin"
 

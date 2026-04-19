@@ -20,4 +20,4 @@ formatters:
           replacement: "any"
     goimports:
       local-prefixes:
-        - github.com/moriT958/md2pw
+        - github.com/moriT958/libpukiwiki

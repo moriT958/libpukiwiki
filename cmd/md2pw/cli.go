@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/moriT958/md2pw/converter"
+	"github.com/moriT958/libpukiwiki/converter"
 )
 
 type command struct {

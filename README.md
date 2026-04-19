@@ -16,7 +16,7 @@ Convert markdown to pukiwiki notation. (markdown -> pukiwiki)
 **cURL**
 
 ```bash
-curl -sSfL https://raw.githubusercontent.com/moriT958/md2pw/main/install.sh | sh
+curl -sSfL https://raw.githubusercontent.com/moriT958/libpukiwiki/main/install.sh | sh
 ```
 
 ## Example

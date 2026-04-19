@@ -1,4 +1,4 @@
-module github.com/moriT958/md2pw
+module github.com/moriT958/libpukiwiki
 
 go 1.23.5
 
