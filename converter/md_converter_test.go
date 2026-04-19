@@ -207,7 +207,7 @@ func TestConvert(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := Convert(tt.input)
+			result, err := ConvertToPukiwiki(tt.input)
 			if err != nil {
 				t.Fatalf("Convert returned error: %v", err)
 			}
@@ -229,7 +229,7 @@ func TestConvert_Integration(t *testing.T) {
 		t.Fatalf("ReadFile(sample.golden.txt) returned error: %v", err)
 	}
 
-	result, err := Convert(input)
+	result, err := ConvertToPukiwiki(input)
 	if err != nil {
 		t.Fatalf("Convert returned error: %v", err)
 	}

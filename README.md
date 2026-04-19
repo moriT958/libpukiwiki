@@ -1,71 +1,88 @@
-# md2pw
+# libpukiwiki
 
-Convert markdown to pukiwiki notation. (markdown -> pukiwiki)
-
-**Supported Notations**
-
-- [x] Headers
-- [x] List
-- [x] Codeblock
-- [x] Bold
-- [x] Link
-- [x] Table
+f-lab の PukiWiki 操作用 Go ライブラリ
 
 ## Install
 
-**cURL**
+```bash
+go get github.com/moriT958/libpukiwiki
+```
+
+## Usage
+
+[Examples](./examples)
+
+## Converter
+
+Work in progress...
+
+## md2pw
+
+`md2pw` は Markdown を PukiWiki 記法へ変換する CLI ツールです。
+
+### インストール
+
+`go install` を使う場合:
+
+```bash
+go install github.com/moriT958/libpukiwiki/cmd/md2pw@latest
+```
+
+リリース済みバイナリを使う場合:
 
 ```bash
 curl -sSfL https://raw.githubusercontent.com/moriT958/libpukiwiki/main/install.sh | sh
 ```
 
-## Example
+### 使い方
 
-Example usage
+基本形:
 
-### from pipe
+```bash
+md2pw [options] [<file.md>|-]
+```
+
+オプション:
+
+- `-o <path>`: 変換結果を標準出力ではなくファイルへ書き出します
+
+#### Example
+
+標準入力から読む:
 
 ```bash
 echo '# heading' | md2pw
 cat input.md | md2pw
-```
-
-### Redirect
-
-```bash
-md2pw < input.md
-```
-
-### Explicit Stdin
-
-```bash
 md2pw -
 ```
 
-### Read file
+ファイルを読む:
 
 ```bash
 md2pw input.md
 md2pw -o output.txt input.md
 ```
 
-## pukiWiki notaion coverage
+リダイレクトで渡す:
 
-Supported notaitions.
-
-### Headers
-
-pukiwiki は 3 段階ある。
-
-**PukiWiki**
-
-```text
-* H1
-** H2
-*** H3
+```bash
+md2pw < input.md
 ```
 
-**Markdown**
+### 対応記法
+
+実装上、現在変換対象になっているのは以下です。
+
+- 見出し
+- リスト
+- コードブロック
+- 太字
+- リンク
+- テーブル
+
+#### 見出し
+
+`#` から `###` までを PukiWiki の見出しへ変換します。`####` 以降はそのまま残ります。
 
 ```markdown
 # H1
@@ -73,120 +90,92 @@ pukiwiki は 3 段階ある。
 ## H2
 
 ### H3
+
+#### H4
 ```
-
-### List
-
-インデントは 3 Level まで対応
-
-#### Ordered
-
-同じ
-
-**PukiWiki / Markdown**
 
 ```text
-- list1
-- list2
-- list3
+* H1
+** H2
+*** H3
+#### H4
 ```
 
-#### Unordered
+#### リスト
 
-**PukiWiki**
-
-```text
-+ ordered1
-+ ordered2
-+ ordered3
-```
-
-**Mardown**
+順不同リストは `-`、番号付きリストは `+` に変換します。ネストは 3 段までサポートされ、4 段目以降は 3 段として扱われます。
 
 ```markdown
+- item1
+  - nested1
+  - nested2
+
 1. ordered1
-2. ordered2
-3. ordered3
+   1. nested1
+   2. nested2
 ```
-
-### Code Block
-
-**PukiWiki**
 
 ```text
-  this is sample code.
-  need 2 spaces
+-item1
+--nested1
+--nested2
+
++ordered1
+++nested1
+++nested2
 ```
 
-**Markdown**
+#### コードブロック
 
-```markdown
-\`\`\`(filetype)
-this is sample code.
-\`\`\`
+フェンス付きコードブロックを、各行の先頭に半角スペース 2 つを付けた PukiWiki 形式へ変換します。開始・終了のフェンス行は出力しません。言語指定は無視されます。
+
+````markdown
+```go
+func main() {}
 ```
+````
 
-### Bold
-
-**PukiWiki**
+````
 
 ```text
-''text''
-```
+  func main() {}
+````
 
-**Markdown**
+#### 太字
+
+`**text**` を `''text''` へ変換します。`*italic*` は変換しません。
 
 ```markdown
-**text**
+This is **bold** text.
 ```
-
-### Link
-
-**PukiWiki**
 
 ```text
-[[this is link>https://example.com]]
+This is ''bold'' text.
 ```
 
-**Markdown**
+#### リンク
+
+インラインリンクを `[[text>url]]` へ変換します。
 
 ```markdown
-[this is link](https://example.com)
+[example](https://example.com)
 ```
-
-### Table
-
-**Pukiwiki**
 
 ```text
-|~ Column1 |~ Column2 |~ Column3 |
-| Item1.1  | Item2.1  | Item3.1  |
-| Item1.2  | Item2.2  | Item3.2  |
-| Item1.2  | Item2.2  | Item3.2  |
+[[example>https://example.com]]
 ```
 
-**Markdown**
+#### テーブル
+
+Markdown テーブルを PukiWiki テーブルへ変換します。ヘッダー行には `~` を付け、区切り行は出力しません。
 
 ```markdown
-| Column1 | Column2 | Column3 |
-| ------- | ------- | ------- |
-| Item1.1 | Item2.1 | Item3.1 |
-| Item1.2 | Item2.2 | Item3.2 |
-| Item1.2 | Item2.2 | Item3.2 |
+| Column1 | Column2 |
+| ------- | ------- |
+| A       | B       |
 ```
 
-## Development
-
-- deps
-  - Go
-  - golangci-lint
-  - task
-
-- dev commands
-  - Run command: `task run`
-    - with args: `task run -- <args>`
-  - Build: `task build`
-  - Test: `task test`
-  - Lint: `task lint`
-  - Release check: `task release`
-  - Deploy: `task deploy -- --tag <v0.0.0>`
+```text
+|~ Column1 |~ Column2 |
+| A | B |
+```

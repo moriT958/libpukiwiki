@@ -38,7 +38,7 @@ type tableResult struct {
 	err   error
 }
 
-func Convert(markdown []byte) (string, error) {
+func ConvertToPukiwiki(markdown []byte) (string, error) {
 	doc := goldmark.New(
 		goldmark.WithExtensions(extension.Table),
 	).Parser().Parse(text.NewReader(markdown))

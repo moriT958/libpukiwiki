@@ -76,7 +76,7 @@ func (c *command) run(args []string) int {
 		return 1
 	}
 
-	result, err := converter.Convert(content)
+	result, err := converter.ConvertToPukiwiki(content)
 	if err != nil {
 		_, _ = fmt.Fprintf(c.errStream, "Error converting: %v\n", err)
 		return 1
