@@ -146,13 +146,13 @@ func tokenizeInline(line string) []token {
 				break
 			}
 			inner := rest[:j]
-			sepIdx := strings.Index(inner, ">")
-			if sepIdx == -1 {
+			label, link, exist := strings.Cut(inner, ">")
+			if !exist {
 				tokens = append(tokens, token{typ: tokenLinkText, value: inner})
 			} else {
-				tokens = append(tokens, token{typ: tokenLinkText, value: inner[:sepIdx]})
+				tokens = append(tokens, token{typ: tokenLinkText, value: label})
 				tokens = append(tokens, token{typ: tokenLinkSep, value: ">"})
-				tokens = append(tokens, token{typ: tokenLinkURL, value: inner[sepIdx+1:]})
+				tokens = append(tokens, token{typ: tokenLinkURL, value: link})
 			}
 			tokens = append(tokens, token{typ: tokenLinkClose, value: "]]"})
 			i += j + 2
